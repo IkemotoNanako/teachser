@@ -17,12 +17,12 @@
         </nav>
     </header>
     
-    <div id="hamburger">
+    <div id="hamburger" @click="naviOpen" :class="{'is-active': active}">
         <span></span>
         <span></span>
         <span></span>
     </div>
-        <nav class="menu-content">
+        <nav class="menu-content" v-show="navi"> 
         <p class="menu-title">Sloth</p>
         <ul class="menu-content_inner">
             <li><a href="#1">コンセプト</a></li>
@@ -94,7 +94,10 @@
       </table>
       <button @click="healthcount">決定</button>
     </div>
-    <div id="top-btn">↑</div>
+    <div v-if="bad" class="health-tell bad">疲れているよ<br>十分頑張っているから休めるだけ休んでね</div>
+    <div v-if="soso" class="health-tell soso">疲れ気味だよ<br>自分の体を大切にね</div>
+    <div v-if="good" class="health-tell good">記録上はまだ大丈夫だよ<br>でも、心の声を優先して休んでね</div>
+    <div id="top-btn" class="page-top" v-scroll-to = "'body'">↑</div>
     <div class="concept" id="1">
         <h2>コンセプト</h2>
         <p>ついつい頑張りすぎてしまう、自分の体調に気づきにくい、そんな悩みを持つ人のために作りました</p>
@@ -122,19 +125,69 @@ export default {
         { id: 2, name: '✕' },
         { id: 3, name: '？' }
                 ],
-     now: date.getMonth() + "/" + date.getDate()  
+     now: date.getMonth() + "/" + date.getDate(),
+     bad: false,
+     soso: false,
+     good: false
     }
+  },
+  methods: {
+    healthcount() {
+      this.health=0;
+      console.log(this.selected1);
+      if (this.selected1 == "✕") {
+        this.health++;
+      }
+      if (this.selected2 == "✕") {
+        this.health++;
+      }
+      if (this.selected3 == "✕") {
+        this.health++;
+      }
+      if (this.selected4 == "✕") {
+        this.health++;
+      }
+      if (this.selected5 == "✕") {
+        this.health++;
+      }
+      if (this.selected6 == "✕") {
+        this.health++;
+      }
+      if (this.selected1 == "？") {
+        this.health+=2;
+      }
+      if (this.selected2 == "？") {
+        this.health+=2;
+      }
+      if (this.selected3 == "？") {
+        this.health+=2;
+      }
+      if (this.selected4 == "？") {
+        this.health+=2;
+      }
+      if (this.selected5 == "？") {
+        this.health+=2;
+      }
+      if (this.selected6 == "？") {
+        this.health+=2;
+      }
+      console.log(this.health);
+      if (this.health >= 3){
+        this.bad=true;
+        this.soso=false;
+        this.good=false;
+      } else if (this.health>=1){
+        this.bad=false;
+        this.soso=true;
+        this.good=false;
+      } else {
+        this.bad=false;
+        this.soso=false;
+        this.good=true;
+      }
+    }  
   }
 }
-var health = 0
-if (health >= 3){
-  alert('危険');
-} else if (health>=1){
-  alert('注意');
-} else {
-  alert('普通');
-}
-console.log(this.selected1)
 
 </script>
 <style scoped>
@@ -145,13 +198,23 @@ table {
  button {
    margin-left: 800px
  }
+ /*体調通知*/
+ .health-tell {
+   text-align:center;
+   margin: 50px;
+   font-size: 20px;
+   background: #bae2fd;
+   padding: 20px;
+   border-radius: 20px;
+
+ }
  /*背景デザイン*/
 
 html, body {
     height: 100%;
   }
   
-  html {
+  .class {
     background: #eee;
   }
   
@@ -261,11 +324,6 @@ h1 {
 a {
     text-decoration: none;
     color: #000;
-}
-
-/*main*/
-main {
-    
 }
 
 /*ハンバーガーメニュー*/

@@ -22,13 +22,16 @@
         <span></span>
         <span></span>
     </div>
+    <transition name="navi">
         <nav class="menu-content" v-show="navi"> 
         <p class="menu-title">Sloth</p>
-        <ul class="menu-content_inner">
+          <ul class="menu-content_inner">
             <li><a href="#1">コンセプト</a></li>
             <li><a href="#2">使い方</a></li>
-    </ul>
-    </nav>
+            
+          </ul>
+        </nav>
+    </transition>
     <div>
       <table>
         <tr>
@@ -128,7 +131,8 @@ export default {
      now: date.getMonth() + "/" + date.getDate(),
      bad: false,
      soso: false,
-     good: false
+     good: false,
+     
     }
   },
   methods: {

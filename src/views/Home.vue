@@ -33,6 +33,9 @@
         </nav>
     </transition>
     <div>
+      <div v-if="bad" class="health-tell bad">疲れているよ<br>十分頑張っているから休めるだけ休んでね</div>
+      <div v-if="soso" class="health-tell soso">疲れ気味だよ<br>自分の体を大切にね</div>
+      <div v-if="good" class="health-tell good">記録上はまだ大丈夫だよ<br>でも、心の声を優先して休んでね</div>
       <table>
         <tr>
           <th>日付</th>
@@ -42,6 +45,7 @@
           <th>心の安定</th>
           <th>食欲</th>
           <th>気力</th>
+          <th>備考</th>
         </tr>
         <tr>
           <td>{{now}}</td>
@@ -93,13 +97,71 @@
             </option>
         </select>
           </td>
+          <td><input type="text"></td>
         </tr>
+
+
+
+        <tr>
+          <td>{{yesterday}}</td>
+          <td>
+          <select v-model="selected7">
+            <option disabled value="">選択して下さい</option>
+            <option v-for="option in options" v-bind:value="option.name" v-bind:key="option.id">
+                {{ option.name }}
+            </option>
+        </select>
+          </td>
+          <td>
+          <select v-model="selected8">
+            <option disabled value="">選択して下さい</option>
+            <option v-for="option in options" v-bind:value="option.name" v-bind:key="option.id">
+                {{ option.name }}
+            </option>
+        </select>
+          </td>
+          <td>
+          <select v-model="selected9">
+            <option disabled value="">選択して下さい</option>
+            <option v-for="option in options" v-bind:value="option.name" v-bind:key="option.id">
+                {{ option.name }}
+            </option>
+        </select>
+          </td>
+          <td>
+          <select v-model="selected10">
+            <option disabled value="">選択して下さい</option>
+            <option v-for="option in options" v-bind:value="option.name" v-bind:key="option.id">
+                {{ option.name }}
+            </option>
+        </select>
+          </td>
+          <td>
+          <select v-model="selected11">
+            <option disabled value="">選択して下さい</option>
+            <option v-for="option in options" v-bind:value="option.name" v-bind:key="option.id">
+                {{ option.name }}
+            </option>
+        </select>
+          </td>
+          <td>
+          <select v-model="selected12">
+            <option disabled value="">選択して下さい</option>
+            <option v-for="option in options" v-bind:value="option.name" v-bind:key="option.id">
+                {{ option.name }}
+            </option>
+        </select>
+          </td>
+          <td><input type="text"></td>
+        </tr>
+
+
+
+
       </table>
       <button @click="healthcount">決定</button>
     </div>
-    <div v-if="bad" class="health-tell bad">疲れているよ<br>十分頑張っているから休めるだけ休んでね</div>
-    <div v-if="soso" class="health-tell soso">疲れ気味だよ<br>自分の体を大切にね</div>
-    <div v-if="good" class="health-tell good">記録上はまだ大丈夫だよ<br>でも、心の声を優先して休んでね</div>
+    
     <div id="top-btn" class="page-top" v-scroll-to = "'body'">↑</div>
     <div class="concept" id="1">
         <h2>コンセプト</h2>
@@ -107,13 +169,14 @@
     </div>
     <div class="explain" id="2">
         <h2>使い方</h2>
-        <p>その日の体調を〇✕？(わからない)の３つから選んで記入してね<br>一週間記録がたまったら今の君の状態を伝えるよ<br>お医者さんにこの画面を見せてもいいよ<br>もっと記入したいことがあったら＋を押してね</p>
+        <p>その日の体調を〇✕？(わからない)の３つから選んで記入してね<br>今日の状態をあなたに伝えるよ<br>お医者さんにこの画面を見せてもいいよ<br>もっと記入したいことがあったら備考に書いてね</p>
     </div>
   </div>
 </template>
 
 <script>
 var date = new Date()
+var yesterdaydate = date.getDate() -1
 export default {
   data(){
     return{
@@ -123,19 +186,31 @@ export default {
       selected4: '',
       selected5: '',
       selected6: '',
+      selected7: '',
+      selected8: '',
+      selected9: '',
+      selected10: '',
+      selected11: '',
+      selected12: '',
       options: [
         { id: 1, name: '〇' },
         { id: 2, name: '✕' },
         { id: 3, name: '？' }
                 ],
      now: date.getMonth() + "/" + date.getDate(),
+     yesterday: date.getMonth() + "/" + yesterdaydate,
      bad: false,
      soso: false,
      good: false,
-     
-    }
+     active: false,
+     navi: false
+    };
   },
   methods: {
+      naviOpen: function() {
+      this.active = !this.active;
+      this.navi = !this.navi;
+    },
     healthcount() {
       this.health=0;
       console.log(this.selected1);
@@ -191,7 +266,7 @@ export default {
       }
     }  
   }
-}
+};
 
 
 
@@ -334,14 +409,15 @@ a {
 
 /*ハンバーガーメニュー*/
 
-#hamburger.active span:nth-of-type(1) {
+
+#hamburger.is-active span:nth-of-type(1) {
     top: 20px;
     transform: rotate(45deg);
 }
-#hamburger.active span:nth-of-type(2) {
+#hamburger.is-active span:nth-of-type(2) {
     opacity: 0;
 }
-#hamburger.active span:nth-of-type(3) {
+#hamburger.is-active span:nth-of-type(3) {
     top: 20px;
     transform: rotate(-45deg);
 }
@@ -358,6 +434,7 @@ a {
         color: #333333;
         text-align: left;
         font-weight: bold;
+        font-style: initial;
     }
 }
 .menu-content {
@@ -367,25 +444,21 @@ a {
     transition: .2s;
     position: fixed;
     top: 0;
-    left: calc(-100% - 80px);
     background: #fff;
     color: #333333;
-    box-shadow: 80px 0 rgba(38,98,213,0.3);
+    box-shadow: 80px 0 rgba(38, 149, 213, 0.3);
+    z-index: 10;
 }
 .menu-content li a{
     color: #333333;
     margin: 15px;
     padding: 5px;
-    border-bottom: 0.5px solid #2662d5;
+    border-bottom: 0.5px solid #26a3d5;
     display: block;
 }
 .memu-content li {
     width: 100%;
     text-align: left;
-}
-.menu-content.open {
-    left:  0;
-    z-index: 100;
 }
 
 @media screen and (max-width: 768px) {
@@ -398,6 +471,7 @@ a {
         right: 20px;
         transition: .4s;
         top: 20px;
+        position: fixed;
     }
     #hamburger span {
         background-color: #000000;

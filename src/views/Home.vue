@@ -1,7 +1,7 @@
 <template>
 <div>
     <header>
-        <h1>うちで学校</h1>
+        <h1>うちで学校！！</h1>
         <nav>
             <ul class="inner-nav">
                 <li class="menu"><a href="#1">コンセプト</a></li>

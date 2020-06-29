@@ -42,6 +42,7 @@ export default {
 </script>
 
 <style scoped>
+
 @media screen and (max-width: 768px){
   .first-p{
       font-size: 30px;
@@ -49,6 +50,8 @@ export default {
   .second-p{
       font-size: 30px;
   }
+
+
 }
 header {
     position: relative;
